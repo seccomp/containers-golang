@@ -1,48 +1,47 @@
-// +build linux,seccomp
+// +build linux
 
 package seccomp // import "github.com/containers/seccomp"
 
 import (
-	"github.com/containers/seccomp/types"
 	"golang.org/x/sys/unix"
 )
 
-func arches() []types.Architecture {
-	return []types.Architecture{
+func arches() []Architecture {
+	return []Architecture{
 		{
-			Arch:      types.ArchX86_64,
-			SubArches: []types.Arch{types.ArchX86, types.ArchX32},
+			Arch:      ArchX86_64,
+			SubArches: []Arch{ArchX86, ArchX32},
 		},
 		{
-			Arch:      types.ArchAARCH64,
-			SubArches: []types.Arch{types.ArchARM},
+			Arch:      ArchAARCH64,
+			SubArches: []Arch{ArchARM},
 		},
 		{
-			Arch:      types.ArchMIPS64,
-			SubArches: []types.Arch{types.ArchMIPS, types.ArchMIPS64N32},
+			Arch:      ArchMIPS64,
+			SubArches: []Arch{ArchMIPS, ArchMIPS64N32},
 		},
 		{
-			Arch:      types.ArchMIPS64N32,
-			SubArches: []types.Arch{types.ArchMIPS, types.ArchMIPS64},
+			Arch:      ArchMIPS64N32,
+			SubArches: []Arch{ArchMIPS, ArchMIPS64},
 		},
 		{
-			Arch:      types.ArchMIPSEL64,
-			SubArches: []types.Arch{types.ArchMIPSEL, types.ArchMIPSEL64N32},
+			Arch:      ArchMIPSEL64,
+			SubArches: []Arch{ArchMIPSEL, ArchMIPSEL64N32},
 		},
 		{
-			Arch:      types.ArchMIPSEL64N32,
-			SubArches: []types.Arch{types.ArchMIPSEL, types.ArchMIPSEL64},
+			Arch:      ArchMIPSEL64N32,
+			SubArches: []Arch{ArchMIPSEL, ArchMIPSEL64},
 		},
 		{
-			Arch:      types.ArchS390X,
-			SubArches: []types.Arch{types.ArchS390},
+			Arch:      ArchS390X,
+			SubArches: []Arch{ArchS390},
 		},
 	}
 }
 
 // DefaultProfile defines the whitelist for the default seccomp profile.
-func DefaultProfile() *types.Seccomp {
-	syscalls := []*types.Syscall{
+func DefaultProfile() *Seccomp {
+	syscalls := []*Syscall{
 		{
 			Names: []string{
 				"accept",
@@ -358,61 +357,61 @@ func DefaultProfile() *types.Seccomp {
 				"write",
 				"writev",
 			},
-			Action: types.ActAllow,
-			Args:   []*types.Arg{},
+			Action: ActAllow,
+			Args:   []*Arg{},
 		},
 		{
 			Names:  []string{"personality"},
-			Action: types.ActAllow,
-			Args: []*types.Arg{
+			Action: ActAllow,
+			Args: []*Arg{
 				{
 					Index: 0,
 					Value: 0x0,
-					Op:    types.OpEqualTo,
+					Op:    OpEqualTo,
 				},
 			},
 		},
 		{
 			Names:  []string{"personality"},
-			Action: types.ActAllow,
-			Args: []*types.Arg{
+			Action: ActAllow,
+			Args: []*Arg{
 				{
 					Index: 0,
 					Value: 0x0008,
-					Op:    types.OpEqualTo,
+					Op:    OpEqualTo,
 				},
 			},
 		},
 		{
 			Names:  []string{"personality"},
-			Action: types.ActAllow,
-			Args: []*types.Arg{
+			Action: ActAllow,
+			Args: []*Arg{
 				{
 					Index: 0,
 					Value: 0x20000,
-					Op:    types.OpEqualTo,
+					Op:    OpEqualTo,
 				},
 			},
 		},
 		{
 			Names:  []string{"personality"},
-			Action: types.ActAllow,
-			Args: []*types.Arg{
+			Action: ActAllow,
+			Args: []*Arg{
 				{
 					Index: 0,
 					Value: 0x20008,
-					Op:    types.OpEqualTo,
+					Op:    OpEqualTo,
 				},
 			},
 		},
 		{
 			Names:  []string{"personality"},
-			Action: types.ActAllow,
-			Args: []*types.Arg{
+			Action: ActAllow,
+			Args: []*Arg{
 				{
 					Index: 0,
 					Value: 0xffffffff,
-					Op:    types.OpEqualTo,
+					Op:    OpEqualTo,
 				},
 			},
 		},
@@ -420,9 +419,9 @@ func DefaultProfile() *types.Seccomp {
 			Names: []string{
 				"sync_file_range2",
 			},
-			Action: types.ActAllow,
-			Args:   []*types.Arg{},
-			Includes: types.Filter{
+			Action: ActAllow,
+			Args:   []*Arg{},
+			Includes: Filter{
 				Arches: []string{"ppc64le"},
 			},
 		},
@@ -435,9 +434,9 @@ func DefaultProfile() *types.Seccomp {
 				"cacheflush",
 				"set_tls",
 			},
-			Action: types.ActAllow,
-			Args:   []*types.Arg{},
-			Includes: types.Filter{
+			Action: ActAllow,
+			Args:   []*Arg{},
+			Includes: Filter{
 				Arches: []string{"arm", "arm64"},
 			},
 		},
@@ -445,9 +444,9 @@ func DefaultProfile() *types.Seccomp {
 			Names: []string{
 				"arch_prctl",
 			},
-			Action: types.ActAllow,
-			Args:   []*types.Arg{},
-			Includes: types.Filter{
+			Action: ActAllow,
+			Args:   []*Arg{},
+			Includes: Filter{
 				Arches: []string{"amd64", "x32"},
 			},
 		},
@@ -455,9 +454,9 @@ func DefaultProfile() *types.Seccomp {
 			Names: []string{
 				"modify_ldt",
 			},
-			Action: types.ActAllow,
-			Args:   []*types.Arg{},
-			Includes: types.Filter{
+			Action: ActAllow,
+			Args:   []*Arg{},
+			Includes: Filter{
 				Arches: []string{"amd64", "x32", "x86"},
 			},
 		},
@@ -467,9 +466,9 @@ func DefaultProfile() *types.Seccomp {
 				"s390_pci_mmio_write",
 				"s390_runtime_instr",
 			},
-			Action: types.ActAllow,
-			Args:   []*types.Arg{},
-			Includes: types.Filter{
+			Action: ActAllow,
+			Args:   []*Arg{},
+			Includes: Filter{
 				Arches: []string{"s390", "s390x"},
 			},
 		},
@@ -477,9 +476,9 @@ func DefaultProfile() *types.Seccomp {
 			Names: []string{
 				"open_by_handle_at",
 			},
-			Action: types.ActAllow,
-			Args:   []*types.Arg{},
-			Includes: types.Filter{
+			Action: ActAllow,
+			Args:   []*Arg{},
+			Includes: Filter{
 				Caps: []string{"CAP_DAC_READ_SEARCH"},
 			},
 		},
@@ -500,9 +499,9 @@ func DefaultProfile() *types.Seccomp {
 				"umount2",
 				"unshare",
 			},
-			Action: types.ActAllow,
-			Args:   []*types.Arg{},
-			Includes: types.Filter{
+			Action: ActAllow,
+			Args:   []*Arg{},
+			Includes: Filter{
 				Caps: []string{"CAP_SYS_ADMIN"},
 			},
 		},
@@ -510,16 +509,16 @@ func DefaultProfile() *types.Seccomp {
 			Names: []string{
 				"clone",
 			},
-			Action: types.ActAllow,
-			Args: []*types.Arg{
+			Action: ActAllow,
+			Args: []*Arg{
 				{
 					Index:    0,
 					Value:    unix.CLONE_NEWNS | unix.CLONE_NEWUTS | unix.CLONE_NEWIPC | unix.CLONE_NEWUSER | unix.CLONE_NEWPID | unix.CLONE_NEWNET,
 					ValueTwo: 0,
-					Op:       types.OpMaskedEqual,
+					Op:       OpMaskedEqual,
 				},
 			},
-			Excludes: types.Filter{
+			Excludes: Filter{
 				Caps:   []string{"CAP_SYS_ADMIN"},
 				Arches: []string{"s390", "s390x"},
 			},
@@ -528,20 +527,20 @@ func DefaultProfile() *types.Seccomp {
 			Names: []string{
 				"clone",
 			},
-			Action: types.ActAllow,
-			Args: []*types.Arg{
+			Action: ActAllow,
+			Args: []*Arg{
 				{
 					Index:    1,
 					Value:    unix.CLONE_NEWNS | unix.CLONE_NEWUTS | unix.CLONE_NEWIPC | unix.CLONE_NEWUSER | unix.CLONE_NEWPID | unix.CLONE_NEWNET,
 					ValueTwo: 0,
-					Op:       types.OpMaskedEqual,
+					Op:       OpMaskedEqual,
 				},
 			},
 			Comment: "s390 parameter ordering for clone is different",
-			Includes: types.Filter{
+			Includes: Filter{
 				Arches: []string{"s390", "s390x"},
 			},
-			Excludes: types.Filter{
+			Excludes: Filter{
 				Caps: []string{"CAP_SYS_ADMIN"},
 			},
 		},
@@ -549,9 +548,9 @@ func DefaultProfile() *types.Seccomp {
 			Names: []string{
 				"reboot",
 			},
-			Action: types.ActAllow,
-			Args:   []*types.Arg{},
-			Includes: types.Filter{
+			Action: ActAllow,
+			Args:   []*Arg{},
+			Includes: Filter{
 				Caps: []string{"CAP_SYS_BOOT"},
 			},
 		},
@@ -559,9 +558,9 @@ func DefaultProfile() *types.Seccomp {
 			Names: []string{
 				"chroot",
 			},
-			Action: types.ActAllow,
-			Args:   []*types.Arg{},
-			Includes: types.Filter{
+			Action: ActAllow,
+			Args:   []*Arg{},
+			Includes: Filter{
 				Caps: []string{"CAP_SYS_CHROOT"},
 			},
 		},
@@ -572,9 +571,9 @@ func DefaultProfile() *types.Seccomp {
 				"finit_module",
 				"query_module",
 			},
-			Action: types.ActAllow,
-			Args:   []*types.Arg{},
-			Includes: types.Filter{
+			Action: ActAllow,
+			Args:   []*Arg{},
+			Includes: Filter{
 				Caps: []string{"CAP_SYS_MODULE"},
 			},
 		},
@@ -585,9 +584,9 @@ func DefaultProfile() *types.Seccomp {
 				"name_to_handle_at",
 				"set_mempolicy",
 			},
-			Action: types.ActAllow,
-			Args:   []*types.Arg{},
-			Includes: types.Filter{
+			Action: ActAllow,
+			Args:   []*Arg{},
+			Includes: Filter{
 				Caps: []string{"CAP_SYS_NICE"},
 			},
 		},
@@ -595,9 +594,9 @@ func DefaultProfile() *types.Seccomp {
 			Names: []string{
 				"acct",
 			},
-			Action: types.ActAllow,
-			Args:   []*types.Arg{},
-			Includes: types.Filter{
+			Action: ActAllow,
+			Args:   []*Arg{},
+			Includes: Filter{
 				Caps: []string{"CAP_SYS_PACCT"},
 			},
 		},
@@ -608,9 +607,9 @@ func DefaultProfile() *types.Seccomp {
 				"process_vm_writev",
 				"ptrace",
 			},
-			Action: types.ActAllow,
-			Args:   []*types.Arg{},
-			Includes: types.Filter{
+			Action: ActAllow,
+			Args:   []*Arg{},
+			Includes: Filter{
 				Caps: []string{"CAP_SYS_PTRACE"},
 			},
 		},
@@ -619,9 +618,9 @@ func DefaultProfile() *types.Seccomp {
 				"iopl",
 				"ioperm",
 			},
-			Action: types.ActAllow,
-			Args:   []*types.Arg{},
-			Includes: types.Filter{
+			Action: ActAllow,
+			Args:   []*Arg{},
+			Includes: Filter{
 				Caps: []string{"CAP_SYS_RAWIO"},
 			},
 		},
@@ -631,9 +630,9 @@ func DefaultProfile() *types.Seccomp {
 				"stime",
 				"clock_settime",
 			},
-			Action: types.ActAllow,
-			Args:   []*types.Arg{},
-			Includes: types.Filter{
+			Action: ActAllow,
+			Args:   []*Arg{},
+			Includes: Filter{
 				Caps: []string{"CAP_SYS_TIME"},
 			},
 		},
@@ -641,16 +640,16 @@ func DefaultProfile() *types.Seccomp {
 			Names: []string{
 				"vhangup",
 			},
-			Action: types.ActAllow,
-			Args:   []*types.Arg{},
-			Includes: types.Filter{
+			Action: ActAllow,
+			Args:   []*Arg{},
+			Includes: Filter{
 				Caps: []string{"CAP_SYS_TTY_CONFIG"},
 			},
 		},
 	}
 
-	return &types.Seccomp{
-		DefaultAction: types.ActErrno,
+	return &Seccomp{
+		DefaultAction: ActErrno,
 		ArchMap:       arches(),
 		Syscalls:      syscalls,
 	}

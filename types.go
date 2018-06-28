@@ -1,4 +1,4 @@
-package types
+package seccomp // import "github.com/containers/seccomp"
 
 // Seccomp represents the config for a seccomp profile for syscall restriction.
 type Seccomp struct {
