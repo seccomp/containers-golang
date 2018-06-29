@@ -1,6 +1,6 @@
 // +build seccomp
 
-package seccomp // import "github.com/containers/seccomp"
+package seccomp // import "github.com/seccomp/containers-golang"
 
 import (
 	"io/ioutil"

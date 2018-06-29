@@ -8,7 +8,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/containers/seccomp"
+	"github.com/seccomp/containers-golang"
 )
 
 // saves the default seccomp profile as a json file so people can use it as a

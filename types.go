@@ -1,4 +1,4 @@
-package seccomp // import "github.com/containers/seccomp"
+package seccomp // import "github.com/seccomp/containers-golang"
 
 // Seccomp represents the config for a seccomp profile for syscall restriction.
 type Seccomp struct {

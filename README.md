@@ -18,5 +18,4 @@ ASL 2.0
 
 ## Contact
 
-- Mailing list: [containers-dev](https://groups.google.com/forum/?hl=en#!forum/containers-dev)
 - IRC: #[CRI-O](irc://irc.freenode.net:6667/#cri-o) on freenode.net
