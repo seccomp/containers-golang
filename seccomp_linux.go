@@ -22,9 +22,24 @@ func GetDefaultProfile(rs *specs.Spec) (*specs.LinuxSeccomp, error) {
 func LoadProfile(body string, rs *specs.Spec) (*specs.LinuxSeccomp, error) {
 	var config Seccomp
 	if err := json.Unmarshal([]byte(body), &config); err != nil {
-		return nil, fmt.Errorf("Decoding seccomp profile failed: %v", err)
+		return nil, fmt.Errorf("decoding seccomp profile failed: %v", err)
 	}
 	return setupSeccomp(&config, rs)
+}
+
+// LoadProfileFromBytes takes a byte slice and decodes the seccomp profile.
+func LoadProfileFromBytes(body []byte, rs *specs.Spec) (*specs.LinuxSeccomp, error) {
+	config := &Seccomp{}
+	if err := json.Unmarshal(body, config); err != nil {
+		return nil, fmt.Errorf("decoding seccomp profile failed: %v", err)
+	}
+	return setupSeccomp(config, rs)
+}
+
+// Reload takes a Seccomp struct and a spec to reload the config
+func Reload(config *Seccomp, specgen *specs.Spec) error {
+	_, err := setupSeccomp(config, specgen)
+	return err
 }
 
 var nativeToSeccomp = map[string]Arch{
@@ -156,4 +171,16 @@ func createSpecsSyscall(name string, action Action, args []*Arg) specs.LinuxSysc
 		newCall.Args = append(newCall.Args, newArg)
 	}
 	return newCall
+}
+
+// IsEnabled returns true if seccomp is enabled for the host.
+func IsEnabled() bool {
+	// Check if Seccomp is supported, via CONFIG_SECCOMP.
+	if err := unix.Prctl(unix.PR_GET_SECCOMP, 0, 0, 0, 0); err != unix.EINVAL {
+		// Make sure the kernel has CONFIG_SECCOMP_FILTER.
+		if err := unix.Prctl(unix.PR_SET_SECCOMP, unix.SECCOMP_MODE_FILTER, 0, 0, 0); err != unix.EINVAL {
+			return true
+		}
+	}
+	return false
 }
