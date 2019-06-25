@@ -16,8 +16,8 @@ all: default.json
 
 .PHONY: test-unit
 test-unit:
-	$(GO) test $(BUILDFLAGS) $(shell $(GO) list ./... | grep -v ^$(PACKAGE)/vendor)
-	$(GO) test $(shell $(GO) list ./... | grep -v ^$(PACKAGE)/vendor)
+	$(GO) test -v $(BUILDFLAGS) $(shell $(GO) list ./... | grep -v ^$(PACKAGE)/vendor)
+	$(GO) test -v $(shell $(GO) list ./... | grep -v ^$(PACKAGE)/vendor)
 
 .PHONY: vendor
 vendor:
@@ -25,3 +25,7 @@ vendor:
 		$(GO) mod tidy && \
 		$(GO) mod vendor && \
 		$(GO) mod verify
+
+.PHONY: clean
+clean:
+	rm -f default.json generate

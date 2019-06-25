@@ -1,0 +1,97 @@
+---
+version: 2.1
+
+executors:
+  container:
+    docker:
+      - image: circleci/golang
+    environment:
+      GOCACHE: &gocache /tmp/go-build
+    working_directory: &workdir /go/src/github.com/seccomp/containers-golang
+  container-base:
+    docker:
+      - image: circleci/golang
+    environment:
+      GOCACHE: *gocache
+    working_directory: *workdir
+
+workflows:
+  version: 2
+  pipeline:
+    jobs:
+      - build
+      - unit-tests:
+          requires:
+            - build
+      - vendor
+
+prepare-env: &prepare-env
+  run:
+    name: Install dependencies
+    command: |
+      sudo apt-get update
+      sudo apt-get install -y \
+        libseccomp2 \
+        libseccomp-dev
+
+jobs:
+  build:
+    executor: container
+    steps:
+      - <<: *prepare-env
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-build-{{ checksum "vendor.conf" }}
+      - run:
+          name: build
+          command: make
+      - save_cache:
+          key: v1-build-{{ checksum "vendor.conf" }}
+          paths:
+            - *gocache
+      - persist_to_workspace:
+          root: .
+          paths:
+            - default.json
+      - store_artifacts:
+          path: generate
+          destination: generate
+      - store_artifacts:
+          path: default.json
+          destination: default.json
+
+  unit-tests:
+    executor: container
+    steps:
+      - <<: *prepare-env
+      - checkout
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          keys:
+            - v1-unit-tests-{{ checksum "vendor.conf" }}
+      - run:
+          name: unit tests
+          command: make test-unit
+      - save_cache:
+          key: v1-unit-tests-{{ checksum "vendor.conf" }}
+          paths:
+            - *gocache
+
+  vendor:
+    executor: container-base
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-vendor-{{ checksum "go.sum" }}
+      - run:
+          name: check vendoring
+          command: |
+            make vendor
+            hack/tree_status.sh
+      - save_cache:
+          key: v1-vendor-{{ checksum "go.sum" }}
+          paths:
+            - /go/pkg
