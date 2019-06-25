@@ -37,10 +37,9 @@ func LoadProfileFromBytes(body []byte, rs *specs.Spec) (*specs.LinuxSeccomp, err
 	return setupSeccomp(config, rs)
 }
 
-// Reload takes a Seccomp struct and a spec to reload the config
-func Reload(config *Seccomp, specgen *specs.Spec) error {
-	_, err := setupSeccomp(config, specgen)
-	return err
+// LoadProfileFromConfig takes a Seccomp struct and a spec to retrieve a LinuxSeccomp
+func LoadProfileFromConfig(config *Seccomp, specgen *specs.Spec) (*specs.LinuxSeccomp, error) {
+	return setupSeccomp(config, specgen)
 }
 
 var nativeToSeccomp = map[string]Arch{
