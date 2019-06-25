@@ -19,7 +19,7 @@ ASL 2.0
 
 ## Contact
 
-- IRC: #[CRI-O](irc://irc.freenode.net:6667/#cri-o) on freenode.net
+- IRC: #[containers](irc://irc.freenode.net:6667/#containers) on freenode.net
 
 [cri-o]:   https://github.com/kubernetes-incubator/cri-o/pulls
 [buildah]: https://github.com/projectatomic/buildah
