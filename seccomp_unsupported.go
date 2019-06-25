@@ -28,9 +28,9 @@ func LoadProfileFromBytes(body []byte, rs *specs.Spec) (*specs.LinuxSeccomp, err
 	return nil, fmt.Errorf("Seccomp not supported on this platform")
 }
 
-// Reload takes a Seccomp struct and a spec to reload the config
-func Reload(config *Seccomp, specgen *specs.Spec) error {
-	return fmt.Errorf("Seccomp not supported on this platform")
+// LoadProfileFromConfig takes a Seccomp struct and a spec to retrieve a LinuxSeccomp
+func LoadProfileFromConfig(config *Seccomp, specgen *specs.Spec) (*specs.LinuxSeccomp, error) {
+	return nil, fmt.Errorf("Seccomp not supported on this platform")
 }
 
 // IsEnabled returns true if seccomp is enabled for the host.
