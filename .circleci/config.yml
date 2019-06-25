@@ -42,12 +42,12 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-build-{{ checksum "vendor.conf" }}
+            - v1-build-{{ checksum "go.sum" }}
       - run:
           name: build
           command: make
       - save_cache:
-          key: v1-build-{{ checksum "vendor.conf" }}
+          key: v1-build-{{ checksum "go.sum" }}
           paths:
             - *gocache
       - persist_to_workspace:
@@ -70,12 +70,12 @@ jobs:
           at: .
       - restore_cache:
           keys:
-            - v1-unit-tests-{{ checksum "vendor.conf" }}
+            - v1-unit-tests-{{ checksum "go.sum" }}
       - run:
           name: unit tests
           command: make test-unit
       - save_cache:
-          key: v1-unit-tests-{{ checksum "vendor.conf" }}
+          key: v1-unit-tests-{{ checksum "go.sum" }}
           paths:
             - *gocache
 
