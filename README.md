@@ -1,3 +1,7 @@
+# containers-golang
+
+[![CircleCI](https://circleci.com/gh/seccomp/containers-golang.svg?style=shield)](https://circleci.com/gh/seccomp/containers-golang)
+
 `containers-golang` is a set of Go libraries used by container runtimes to generate and load seccomp mappings into the kernel.
 
 seccomp (short for secure computing mode) is a BPF based syscall filter language and present a more conventional function-call based filtering interface that should be familiar to, and easily adopted by, application developers.
