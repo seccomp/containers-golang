@@ -47,13 +47,13 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - default.json
+            - seccomp.json
       - store_artifacts:
           path: generate
           destination: generate
       - store_artifacts:
-          path: default.json
-          destination: default.json
+          path: seccomp.json
+          destination: seccomp.json
 
   unit-tests:
     executor: container
@@ -76,6 +76,7 @@ jobs:
   vendor:
     executor: container
     steps:
+      - <<: *prepare-env
       - checkout
       - restore_cache:
           keys:
@@ -85,6 +86,11 @@ jobs:
           command: |
             make vendor
             hack/tree_status.sh
+      - run:
+          name: check profile consistency
+          command: |
+            make seccomp.json
+            git diff --exit-code
       - save_cache:
           key: v1-vendor-{{ checksum "go.sum" }}
           paths:
