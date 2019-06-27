@@ -7,7 +7,7 @@
 seccomp (short for secure computing mode) is a BPF based syscall filter language and present a more conventional function-call based filtering interface that should be familiar to, and easily adopted by, application developers.
 
 ## Building
-   make - Generates default.json file, which containes the whitelisted syscalls that can be used by container runtime engines like [CRI-O][cri-o], [Buildah][buildah], [Podman][podman] and [Docker][docker], and container runtimes like OCI [Runc][runc] to controll the syscalls available to containers.
+   make - Generates seccomp.json file, which contains the whitelisted syscalls that can be used by container runtime engines like [CRI-O][cri-o], [Buildah][buildah], [Podman][podman] and [Docker][docker], and container runtimes like OCI [Runc][runc] to controll the syscalls available to containers.
 
 ### Supported build tags
 

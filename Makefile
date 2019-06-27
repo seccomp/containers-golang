@@ -7,12 +7,13 @@ PACKAGE := github.com/seccomp/containers-golang
 
 sources := $(wildcard *.go)
 
-default.json: $(sources)
+.PHONY: seccomp.json
+seccomp.json: $(sources)
 	$(GO) build -compiler gc $(BUILDFLAGS) ./cmd/generate.go
 	$(GO) build -compiler gc ./cmd/generate.go
 	$(GO) run ${BUILDFLAGS} cmd/generate.go
 
-all: default.json
+all: seccomp.json
 
 .PHONY: test-unit
 test-unit:
@@ -28,4 +29,4 @@ vendor:
 
 .PHONY: clean
 clean:
-	rm -f default.json generate
+	rm -f generate
