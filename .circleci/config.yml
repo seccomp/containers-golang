@@ -8,12 +8,6 @@ executors:
     environment:
       GOCACHE: &gocache /tmp/go-build
     working_directory: &workdir /go/src/github.com/seccomp/containers-golang
-  container-base:
-    docker:
-      - image: circleci/golang
-    environment:
-      GOCACHE: *gocache
-    working_directory: *workdir
 
 workflows:
   version: 2
@@ -80,7 +74,7 @@ jobs:
             - *gocache
 
   vendor:
-    executor: container-base
+    executor: container
     steps:
       - checkout
       - restore_cache:
