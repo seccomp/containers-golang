@@ -17,10 +17,6 @@ seccomp (short for secure computing mode) is a BPF based syscall filter language
 
 When developing this library, please use `make` (or `make … BUILDTAGS=…`) to take advantage of the tests and validation.
 
-## License
-
-ASL 2.0
-
 ## Contact
 
 - IRC: #[containers](irc://irc.freenode.net:6667/#containers) on freenode.net
