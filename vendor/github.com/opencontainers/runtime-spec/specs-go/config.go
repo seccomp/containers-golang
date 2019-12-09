@@ -556,11 +556,15 @@ type VMImage struct {
 type LinuxSeccomp struct {
 	DefaultAction LinuxSeccompAction `json:"defaultAction"`
 	Architectures []Arch             `json:"architectures,omitempty"`
+	Flags         []LinuxSeccompFlag `json:"flags,omitempty"`
 	Syscalls      []LinuxSyscall     `json:"syscalls,omitempty"`
 }
 
 // Arch used for additional architectures
 type Arch string
+
+// LinuxSeccompFlag is a flag to pass to seccomp(2).
+type LinuxSeccompFlag string
 
 // Additional architectures permitted to be used for system calls
 // By default only the native architecture of the kernel is permitted
@@ -595,6 +599,7 @@ const (
 	ActErrno LinuxSeccompAction = "SCMP_ACT_ERRNO"
 	ActTrace LinuxSeccompAction = "SCMP_ACT_TRACE"
 	ActAllow LinuxSeccompAction = "SCMP_ACT_ALLOW"
+	ActLog   LinuxSeccompAction = "SCMP_ACT_LOG"
 )
 
 // LinuxSeccompOperator used to match syscall arguments in Seccomp
