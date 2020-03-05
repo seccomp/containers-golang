@@ -1,5 +1,7 @@
 package seccomp // import "github.com/seccomp/containers-golang"
 
+// SPDX-License-Identifier: Apache-2.0
+
 // Copyright 2013-2018 Docker, Inc.
 
 // Seccomp represents the config for a seccomp profile for syscall restriction.
