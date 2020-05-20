@@ -5,7 +5,7 @@ go 1.13
 require (
 	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/hashicorp/go-multierror v1.0.0 // indirect
-	github.com/opencontainers/runtime-spec v1.0.2-0.20191007145322-19e92ca81777
+	github.com/opencontainers/runtime-spec v1.0.3-0.20200520003142-237cc4f519e2
 	github.com/opencontainers/runtime-tools v0.9.0
 	github.com/opencontainers/selinux v1.3.0 // indirect
 	github.com/seccomp/libseccomp-golang v0.9.1
