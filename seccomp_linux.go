@@ -146,21 +146,22 @@ Loop:
 		}
 
 		if call.Name != "" {
-			newConfig.Syscalls = append(newConfig.Syscalls, createSpecsSyscall([]string{call.Name}, call.Action, call.Args))
+			newConfig.Syscalls = append(newConfig.Syscalls, createSpecsSyscall([]string{call.Name}, call.Action, call.Args, call.ErrnoRet))
 		}
 
 		if len(call.Names) > 0 {
-			newConfig.Syscalls = append(newConfig.Syscalls, createSpecsSyscall(call.Names, call.Action, call.Args))
+			newConfig.Syscalls = append(newConfig.Syscalls, createSpecsSyscall(call.Names, call.Action, call.Args, call.ErrnoRet))
 		}
 	}
 
 	return newConfig, nil
 }
 
-func createSpecsSyscall(names []string, action Action, args []*Arg) specs.LinuxSyscall {
+func createSpecsSyscall(names []string, action Action, args []*Arg, errnoRet *uint) specs.LinuxSyscall {
 	newCall := specs.LinuxSyscall{
-		Names:  names,
-		Action: specs.LinuxSeccompAction(action),
+		Names:    names,
+		Action:   specs.LinuxSeccompAction(action),
+		ErrnoRet: errnoRet,
 	}
 
 	// Loop through all the arguments of the syscall and convert them
