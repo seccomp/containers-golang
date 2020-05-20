@@ -94,4 +94,5 @@ type Syscall struct {
 	Comment  string   `json:"comment"`
 	Includes Filter   `json:"includes"`
 	Excludes Filter   `json:"excludes"`
+	ErrnoRet *uint    `json:"errnoRet,omitempty"`
 }
