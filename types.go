@@ -54,12 +54,15 @@ type Action string
 
 // Define actions for Seccomp rules
 const (
-	ActKill  Action = "SCMP_ACT_KILL"
-	ActTrap  Action = "SCMP_ACT_TRAP"
-	ActErrno Action = "SCMP_ACT_ERRNO"
-	ActTrace Action = "SCMP_ACT_TRACE"
-	ActAllow Action = "SCMP_ACT_ALLOW"
-	ActLog   Action = "SCMP_ACT_LOG"
+	// ActKill results in termination of the thread that made the system call.
+	ActKill Action = "SCMP_ACT_KILL"
+	// ActKillProcess results in termination of the entire process.
+	ActKillProcess Action = "SCMP_ACT_KILL_PROCESS"
+	ActTrap        Action = "SCMP_ACT_TRAP"
+	ActErrno       Action = "SCMP_ACT_ERRNO"
+	ActTrace       Action = "SCMP_ACT_TRACE"
+	ActAllow       Action = "SCMP_ACT_ALLOW"
+	ActLog         Action = "SCMP_ACT_LOG"
 )
 
 // Operator used to match syscall arguments in Seccomp
