@@ -13,7 +13,6 @@ import (
 
 	"github.com/opencontainers/runtime-spec/specs-go"
 	libseccomp "github.com/seccomp/libseccomp-golang"
-	"golang.org/x/sys/unix"
 )
 
 //go:generate go run -tags 'seccomp' generate.go
@@ -180,12 +179,5 @@ func createSpecsSyscall(names []string, action Action, args []*Arg, errnoRet *ui
 
 // IsEnabled returns true if seccomp is enabled for the host.
 func IsEnabled() bool {
-	// Check if Seccomp is supported, via CONFIG_SECCOMP.
-	if err := unix.Prctl(unix.PR_GET_SECCOMP, 0, 0, 0, 0); err != unix.EINVAL {
-		// Make sure the kernel has CONFIG_SECCOMP_FILTER.
-		if err := unix.Prctl(unix.PR_SET_SECCOMP, unix.SECCOMP_MODE_FILTER, 0, 0, 0); err != unix.EINVAL {
-			return true
-		}
-	}
-	return false
+	return IsSupported()
 }
