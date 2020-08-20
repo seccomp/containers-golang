@@ -58,11 +58,15 @@ const (
 	ActKill Action = "SCMP_ACT_KILL"
 	// ActKillProcess results in termination of the entire process.
 	ActKillProcess Action = "SCMP_ACT_KILL_PROCESS"
-	ActTrap        Action = "SCMP_ACT_TRAP"
-	ActErrno       Action = "SCMP_ACT_ERRNO"
-	ActTrace       Action = "SCMP_ACT_TRACE"
-	ActAllow       Action = "SCMP_ACT_ALLOW"
-	ActLog         Action = "SCMP_ACT_LOG"
+	// ActKillThread kills the thread that violated the rule. It is the same as
+	// ActKill. All other threads from the same thread group will continue to
+	// execute.
+	ActKillThread Action = "SCMP_ACT_KILL_THREAD"
+	ActTrap       Action = "SCMP_ACT_TRAP"
+	ActErrno      Action = "SCMP_ACT_ERRNO"
+	ActTrace      Action = "SCMP_ACT_TRACE"
+	ActAllow      Action = "SCMP_ACT_ALLOW"
+	ActLog        Action = "SCMP_ACT_LOG"
 )
 
 // Operator used to match syscall arguments in Seccomp
